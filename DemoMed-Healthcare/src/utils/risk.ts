@@ -54,30 +54,23 @@ const parseBloodPressure = (value: unknown): ParsedBP => {
   };
 };
 
-const getBloodPressureScore = (bp: ParsedBP): number => {
+const getBPSScore = (bp: ParsedBP): number => {
   if (!bp.valid || bp.systolic === null || bp.diastolic === null) {
     return 0;
   }
 
-  const { systolic, diastolic } = bp;
+  const systolicScore =
+    bp.systolic < 120 ? 1 :
+    bp.systolic <= 129 ? 2 :
+    bp.systolic <= 139 ? 3 :
+    4;
 
-  if (systolic < 120 && diastolic < 80) {
-    return 1;
-  }
+  const diastolicScore =
+    bp.diastolic < 80 ? 1 :
+    bp.diastolic <= 89 ? 3 :
+    4;
 
-  if (systolic >= 120 && systolic <= 129 && diastolic < 80) {
-    return 2;
-  }
-
-  if (systolic >= 140 || diastolic >= 90) {
-    return 4;
-  }
-
-  if (systolic >= 130 || diastolic >= 80) {
-    return 3;
-  }
-
-  return 0;
+  return Math.max(systolicScore, diastolicScore);
 };
 
 const getTemperatureScore = (temp: number | null): number => {
@@ -119,7 +112,7 @@ export const evaluatePatientRisk = (patient: RawPatient): PatientRiskResult => {
   const parsedTemp = parseNumber(patient.temperature);
   const parsedAge = parseNumber(patient.age);
 
-  const bpScore = getBloodPressureScore(parsedBP);
+  const bpScore = getBPSScore(parsedBP);
   const tempScore = getTemperatureScore(parsedTemp);
   const ageScore = getAgeScore(parsedAge);
 
@@ -153,7 +146,7 @@ export const buildSubmissionPayload = (
       continue;
     }
 
-    if (result.totalRisk >= 4) {
+    if (!result.hasDataQualityIssue && result.totalRisk > 4) {
       highRiskPatients.add(result.patientId);
     }
 
