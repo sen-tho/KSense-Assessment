@@ -79,3 +79,18 @@ export const fetchAllPatients = async() : Promise<RawPatient[]> => {
 
     return allPatients;
 }
+
+export const submitAssessment = async(
+    payload: SubmissionPayload
+): Promise<unknown> => {
+    const res = await fetchWithRetry( `${API_BASE}/submit-assessment`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-api-key": API_KEY,
+        },
+        body: JSON.stringify(payload),
+    });
+
+    return await res.json();
+}
