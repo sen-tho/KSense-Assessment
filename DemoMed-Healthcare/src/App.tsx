@@ -12,8 +12,6 @@ function App() {
   const [payload, setPayload] = useState<SubmissionPayload | null>(null);
   const [submitResult, setSubmitResult] = useState<any>(null);
 
-
-  
   const handleLoadPatients = async() => {
     setLoading(true);
     setError(null);
@@ -47,11 +45,12 @@ function App() {
     try {
       const result = await submitAssessment(payload);
       setSubmitResult(result);
-      console.log("SUBMIT RESULT:", result);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
       setError("Failed to submit assessment");
-    } finally {
+    } 
+    finally {
       setSubmitting(false);
     }
   };
