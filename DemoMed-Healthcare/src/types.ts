@@ -1,0 +1,34 @@
+export type RawPatient = {
+    patient_id?: string;
+    name?: string;
+    age?: string | string | null;
+    gender?: string | null;
+    blood_pressure?: string | null;
+    temperature?: number | string | null;
+    visit_date?: string | null;
+    diagnosis?: string | null;
+    medications?: string | null;
+}
+
+export type PatientsResponse = {
+    data?: RawPatient[];
+    pagination?: {
+        page?: number;
+        limit?: number;
+        total?: number;
+        totalPages?: number;
+        hasNext?: boolean;
+        hasPrevious?: boolean;
+    };
+    metadata?: {
+        timestamp?: string;
+        version?: string;
+        requestId?: string;
+    };
+}
+
+export type SubmissionPayload = {
+    high_risk_patients: string[];
+    fever_patients: string[];
+    data_qulity_issues: string[];
+};
