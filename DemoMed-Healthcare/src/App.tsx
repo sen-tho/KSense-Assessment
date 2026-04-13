@@ -21,7 +21,6 @@ function App() {
 
       console.log("ALL PATIENTS", data);
       console.log("COUNT:", data.length);  
-
       console.log("SUBMISSION PAYLOAD:", payload);
       console.log("HIGH RISK COUNT:", payload.high_risk_patients.length);
       console.log("FEVER COUNT:", payload.fever_patients.length);
