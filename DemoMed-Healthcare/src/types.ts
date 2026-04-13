@@ -1,7 +1,7 @@
 export type RawPatient = {
     patient_id?: string;
     name?: string;
-    age?: string | string | null;
+    age?: number | string | null;
     gender?: string | null;
     blood_pressure?: string | null;
     temperature?: number | string | null;

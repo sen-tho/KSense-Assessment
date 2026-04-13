@@ -68,13 +68,21 @@ export const fetchAllPatients = async() : Promise<RawPatient[]> => {
             },
         });
 
+        console.log(`Fetching page ${page}...`);
+
         const json: PatientsResponse = await res.json();
 
         const patients = Array.isArray( json.data ) ? json.data : [];
         allPatients.push(...patients);
 
+        console.log(`Fetched page ${page}:`, patients.length);
+        
         hasNext = Boolean(json.pagination?.hasNext);
         page += 1;
+
+        if( hasNext ) {
+            await sleep( 300 );
+        }
     }
 
     return allPatients;
