@@ -61,6 +61,8 @@ export const fetchAllPatients = async() : Promise<RawPatient[]> => {
     while( hasNext ) {
         const url = `${API_BASE}/patients?page=${page}&limit=${limit}`;
 
+        console.log(`Fetching page ${page}...`);
+
         const res = await fetchWithRetry(url, {
             method: "GET",
             headers: {
@@ -68,15 +70,13 @@ export const fetchAllPatients = async() : Promise<RawPatient[]> => {
             },
         });
 
-        console.log(`Fetching page ${page}...`);
-
         const json: PatientsResponse = await res.json();
 
         const patients = Array.isArray( json.data ) ? json.data : [];
         allPatients.push(...patients);
 
         console.log(`Fetched page ${page}:`, patients.length);
-        
+
         hasNext = Boolean(json.pagination?.hasNext);
         page += 1;
 

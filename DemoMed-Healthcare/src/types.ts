@@ -30,5 +30,5 @@ export type PatientsResponse = {
 export type SubmissionPayload = {
     high_risk_patients: string[];
     fever_patients: string[];
-    data_qulity_issues: string[];
+    data_quality_issues: string[];
 };
