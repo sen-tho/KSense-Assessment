@@ -51,3 +51,31 @@ export const fetchWithRetry = async(
     ? lastError
     : new Error( "Request failed after retries");
 };
+
+export const fetchAllPatients = async() : Promise<RawPatient[]> => {
+    const limit = 20;
+    let page = 1;
+    let hasNext = true;
+    const allPatients: RawPatient[] = [];
+
+    while( hasNext ) {
+        const url = `${API_BASE}/patients?page=${page}&limit=${limit}`;
+
+        const res = await fetchWithRetry(url, {
+            method: "GET",
+            headers: {
+                "x-api-key": API_KEY,
+            },
+        });
+
+        const json: PatientsResponse = await res.json();
+
+        const patients = Array.isArray( json.data ) ? json.data : [];
+        allPatients.push(...patients);
+
+        hasNext = Boolean(json.pagination?.hasNext);
+        page += 1;
+    }
+
+    return allPatients;
+}
