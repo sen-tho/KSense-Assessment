@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { fetchAllPatients, submitAssessment } from './api'
 import type { RawPatient, SubmissionPayload } from './types';
-import { buildSubmissionPayload, evaluatePatientRisk } from "./utils/risk";
+import { buildSubmissionPayload } from "./utils/risk";
 
 function App() {
   const [loading, setLoading] = useState(false);
